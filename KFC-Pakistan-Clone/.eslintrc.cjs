@@ -11,6 +11,9 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
-    'react/prop-types': ['off'], 
+    'react/prop-types': ['off'],
+    'react/no-unescaped-entities': 0,
+    'no-empty-pattern': 0,
+    // 'react/jsx-no-undef': 0
   },
 }
