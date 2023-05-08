@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState} from "react";
+
 import ReactDOM from "react-dom/client"; 
 import {API_RESPONSE} from './utils/api';
+import { useCustomHook } from "./utils/Hook";
 // Functional Component
 const Header = () => {
     return (
@@ -19,7 +21,7 @@ const Header = () => {
     )
 };
 
-const FoodContainer = ({    data}) => {
+const FoodContainer = ({ data }) => {
     return (
         <div style={{
             width: '250px',
@@ -37,17 +39,48 @@ const FoodContainer = ({    data}) => {
 
 const Body = () => {
     const [value , setValue] = useState(10);
-    const [res , setRes] = useState(API_RESPONSE);
+    const [res , setRes] = useState([]);
+
+    const [newName , updatedName] = useCustomHook('inital APP name');
+
+    useEffect(() => {
+        // console.log('hello value updatte');
+    } , [value]);
+
+    useEffect(() => {
+        // console.log('hello res updatte');
+    } , [res]);
+
+    useEffect(() => {
+        // console.log('useEffect' , res);
+        // axios.get('URL').then((response) => {
+            
+        //     setRes(response.data)
+        // })
+        setTimeout(() => {
+            // console.log('useEffect SetTimeOut');
+            setRes(API_RESPONSE);
+        } , 2000);
+
+    } , []);
+   
     function removeProduct() {
-        setRes(res);
-        // setValue(20); 
-        // console.log(API_RESPONSE)
+        let v = 20;
+        if(value === 10){
+            v = 20;
+        }else{
+            v = 10;
+        }
+        setValue(v); 
     }
     return (
         <>
+        <h1>{newName    }</h1>
+        
+        <input type="text" onChange={(e) => updatedName(e.target.value || 'hello world')} />
             <button onClick={() => removeProduct()}>Click here {value}</button>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                {API_RESPONSE.map((data) => {
+                {res.map((data) => {
                     return (
                         <FoodContainer data={data} key={data.id}/> 
                     )
